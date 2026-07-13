@@ -137,6 +137,24 @@ def before_uninstall():
             except Exception:
                 pass  # best-effort cleanup
 
+    # Also clean up demo data created by this module
+    warehouse_name = frappe.db.get_value(
+        "Warehouse",
+        {"warehouse_name": DEMO_WAREHOUSE["warehouse_name"]},
+        "name",
+    )
+    if warehouse_name:
+        try:
+            frappe.delete_doc("Warehouse", warehouse_name, force=True, ignore_permissions=True)
+        except Exception:
+            pass
+
+    for cust in DEMO_CUSTOMERS:
+        try:
+            frappe.delete_doc("Customer", cust["name"], force=True, ignore_permissions=True)
+        except Exception:
+            pass
+
 
 # ---------------------------------------------------------------------------
 # Internal helpers
@@ -198,7 +216,13 @@ def _create_addresses(company):
 
 def _create_warehouse(company):
     """Create demo Warehouse (idempotent)."""
-    if frappe.db.exists("Warehouse", DEMO_WAREHOUSE["warehouse_name"]):
+    # Frappe auto-names warehouses as "warehouse_name - company_abbr", so search by field
+    existing = frappe.db.get_value(
+        "Warehouse",
+        {"warehouse_name": DEMO_WAREHOUSE["warehouse_name"]},
+        "name",
+    )
+    if existing:
         return
     doc = frappe.get_doc({
         "doctype": "Warehouse",
@@ -231,7 +255,11 @@ def _create_delivery_trip(transporter):
     Bypasses validation (linked_delivery_notes, POD checks) since this is
     demo data intended for exploration, not a production workflow.
     """
-    warehouse = frappe.get_value("Warehouse", DEMO_WAREHOUSE["warehouse_name"])
+    warehouse = frappe.db.get_value(
+        "Warehouse",
+        {"warehouse_name": DEMO_WAREHOUSE["warehouse_name"]},
+        "name",
+    )
     if not warehouse:
         frappe.throw(_("Demo Warehouse not found — cannot create Delivery Trip."))
 
