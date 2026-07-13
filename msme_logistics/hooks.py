@@ -59,16 +59,12 @@ scheduler_events = {
 before_request = []
 after_request = []
 
-# -----------------------------------------------
-# App include JS/CSS (rendered in Desk)
-# -----------------------------------------------
-app_include_js = "/assets/msme_logistics/js/msme_logistics.js"
-app_include_css = "/assets/msme_logistics/css/msme_logistics.css"
+# App include JS/CSS — disabled until assets are properly linked
+# app_include_js = "/assets/msme_logistics/js/msme_logistics.js"
+# app_include_css = "/assets/msme_logistics/css/msme_logistics.css"
 
-# -----------------------------------------------
 # Website Context
-# -----------------------------------------------
-website_context = {
-    "favicon": "/assets/msme_logistics/favicon.ico",
-    "splash_image": "/assets/msme_logistics/splash.png",
-}
+# website_context = {
+#     "favicon": "/assets/msme_logistics/favicon.ico",
+#     "splash_image": "/assets/msme_logistics/splash.png",
+# }
