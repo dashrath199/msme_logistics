@@ -8,13 +8,12 @@ import os
 import json
 
 import frappe
-from frappe.core.utils import find
-from frappe.modules.import_file import import_file_by_path
-from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+FIXTURE_META_FIELDS = {"creation", "modified", "modified_by", "owner", "docstatus"}
 
 
 def run():
-    """Import all fixture files for msme_logistics."""
+    """Import all fixture files for msme_logistics that don't exist yet."""
     app = frappe.get_app_path("msme_logistics")
     fixtures_dir = os.path.join(app, "fixtures")
     imported = 0
@@ -45,6 +44,10 @@ def run():
             skipped += 1
             continue
 
+        # Strip meta fields that Frappe manages automatically
+        for meta_field in FIXTURE_META_FIELDS:
+            data.pop(meta_field, None)
+
         try:
             doc = frappe.get_doc(data)
             doc.flags.ignore_permissions = True
@@ -54,9 +57,14 @@ def run():
             imported += 1
         except Exception as e:
             print(f"❌ Failed to create {doctype} '{name}': {e}")
+            frappe.log_error(
+                title=f"Fixture import failed: {doctype} '{name}'",
+                message=frappe.get_traceback(),
+            )
             skipped += 1
 
     frappe.db.commit()
     print(f"\n{'='*50}")
     print(f"Done: {imported} imported, {skipped} skipped")
     print(f"{'='*50}")
+    print("\nRun `bench --site mysite.local migrate && bench clear-cache` then hard refresh.")
