@@ -39,7 +39,17 @@ def run():
             skipped += 1
             continue
 
-        if frappe.db.exists(doctype, name):
+        # Some doctypes (e.g. Dashboard Chart) may exist under a different name in DB
+        # than what's in the fixture JSON. Check by a title/name field as fallback.
+        title_field = {
+            "Dashboard Chart": "chart_name",
+        }.get(doctype, "name")
+
+        doc_exists = frappe.db.exists(doctype, name)
+        if not doc_exists and title_field != "name":
+            doc_exists = frappe.db.get_value(doctype, {title_field: data.get(title_field)}, "name")
+
+        if doc_exists:
             print(f"⏭️  {doctype} '{name}' already exists — skipping")
             skipped += 1
             continue
