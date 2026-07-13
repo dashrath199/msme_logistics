@@ -423,6 +423,7 @@ def _create_delivery_trip(
 
     doc = frappe.get_doc(doc_data)
     doc.flags.ignore_validate = True
+    doc.flags.ignore_workflow = True  # Skip workflow state transition validation
     doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
 
