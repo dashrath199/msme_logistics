@@ -163,6 +163,6 @@
  "search_fields": "transporter, driver_name, vehicle_no, trip_status",
  "sort_field": "modified",
  "sort_order": "DESC",
- "title_field": "driver_name",
+
  "track_changes": 1
 }
