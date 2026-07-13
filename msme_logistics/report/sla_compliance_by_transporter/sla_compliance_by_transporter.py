@@ -42,7 +42,7 @@ def execute(filters=None):
         GROUP BY
             trip.transporter
         ORDER BY
-            compliance_pct DESC
+            trip.transporter ASC
         """.format(conditions=_get_conditions(filters)),
         filters,
         as_dict=1,
@@ -52,6 +52,9 @@ def execute(filters=None):
         row.compliance_pct = (row.on_time_stops / row.total_stops * 100) if row.total_stops else 0
         row.delayed_stops = row.get("delayed_stops") or 0
         row.failed_stops = row.get("failed_stops") or 0
+
+    # Sort by compliance_pct descending (computed in Python, not in SQL)
+    data.sort(key=lambda r: r.compliance_pct, reverse=True)
 
     chart = {
         "data": {
