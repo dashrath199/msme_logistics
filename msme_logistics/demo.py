@@ -421,10 +421,24 @@ def _create_delivery_trip(
     if actual_dispatch:
         doc_data["actual_dispatch_datetime"] = actual_dispatch
 
+    # Must set trip_status = first workflow state ("Planned") during insert
+    # because validate_workflow() blocks non-initial states for new documents
+    original_status = doc_data.get("trip_status", "Planned")
+    doc_data["trip_status"] = "Planned"
+
     doc = frappe.get_doc(doc_data)
     doc.flags.ignore_validate = True
-    doc.flags.ignore_workflow = True  # Skip workflow state transition validation
     doc.insert(ignore_permissions=True, ignore_mandatory=True)
+
+    # Now update to the actual desired status via direct SQL (bypasses workflow)
+    if original_status != "Planned":
+        frappe.db.set_value(
+            "Delivery Trip",
+            doc.name,
+            "trip_status",
+            original_status,
+            update_modified=False,
+        )
 
 
 def _create_trip_cost_reconciliation(transporter, warehouse):
