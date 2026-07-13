@@ -1,0 +1,11 @@
+include *.txt
+include *.md
+include *.py
+recursive-include msme_logistics *.py
+recursive-include msme_logistics *.js
+recursive-include msme_logistics *.css
+recursive-include msme_logistics *.json
+recursive-include msme_logistics *.html
+recursive-include msme_logistics *.svg
+recursive-include msme_logistics *.png
+recursive-include msme_logistics *.md

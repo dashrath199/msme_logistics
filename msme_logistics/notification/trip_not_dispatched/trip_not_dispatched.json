@@ -1,0 +1,32 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-01-01 00:00:00.000000",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Delivery Trip",
+ "enabled": 1,
+ "event": "Days After",
+ "is_standard": 1,
+ "message": "<h3>Trip Not Dispatched</h3>\n<p>Trip <strong>{{ doc.name }}</strong> is still in <strong>Planned</strong> status.</p>\n<p><strong>Planned Dispatch Date:</strong> {{ doc.planned_dispatch_date }}</p>\n<p><strong>Transporter:</strong> {{ doc.transporter }}</p>\n<p><strong>Driver:</strong> {{ doc.driver_name }}</p>\n<p><strong>Stops:</strong> {{ doc.total_stops }}</p>\n<p>Please take necessary action.</p>",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Trip Not Dispatched",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "condition": "",
+   "receiver_by_document_field": "",
+   "receiver_by_role": "Dispatch Manager"
+  }
+ ],
+ "sender": "",
+ "sender_email": "",
+ "subject": "Trip Not Dispatched: {{ doc.name }}",
+ "value_changed": "",
+ "date_changed": "planned_dispatch_date",
+ "days_before": 0,
+ "condition": "doc.trip_status == 'Planned'"
+}

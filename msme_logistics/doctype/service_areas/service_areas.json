@@ -1,0 +1,41 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "pincode_from",
+  "pincode_to",
+  "area_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "pincode_from",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pincode From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pincode_to",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pincode To"
+  },
+  {
+   "fieldname": "area_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Area Name"
+  }
+ ],
+ "istable": 1,
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Service Areas",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

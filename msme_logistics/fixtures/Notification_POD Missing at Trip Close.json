@@ -1,0 +1,41 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "{% set missing = namespace(found=false) %}{% for stop in doc.delivery_stops %}{% if stop.status == 'Delivered' and not stop.pod_image and not stop.pod_signature %}{% set missing.found = true %}{% endif %}{% endfor %}{{ missing.found }}",
+ "creation": "2024-01-01 00:00:00.000000",
+ "date_changed": "",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Delivery Trip",
+ "enabled": 1,
+ "event": "Before Workflow Transition",
+ "is_standard": 1,
+ "message": "<h3>POD Missing at Trip Close</h3>\n<p>Trip <strong>{{ doc.name }}</strong> has delivered stops without proof of delivery.</p>\n<p>Delivered stops missing POD:</p>\n<ul>\n{% for stop in doc.delivery_stops %}\n  {% if stop.status == 'Delivered' and not stop.pod_image and not stop.pod_signature %}\n    <li>Stop #{{ stop.sequence_no }} — {{ stop.customer }}</li>\n  {% endif %}\n{% endfor %}\n</ul>\n<p><strong>Action required:</strong> Upload POD images/signatures before completing the trip.</p>",
+ "method": "",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "POD Missing at Trip Close",
+ "owner": "Administrator",
+ "print_format": "",
+ "property_value": "",
+ "recipients": [
+  {
+   "cc": "",
+   "condition": "",
+   "receiver_by_document_field": "",
+   "receiver_by_role": "Dispatch Manager"
+  }
+ ],
+ "sender": "",
+ "sender_email": "",
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "set_property_after_alert": "",
+ "slack_webhook_url": "",
+ "subject": "POD Missing: Trip {{ doc.name }}",
+ "value_changed": "",
+ "workflow": "Delivery Trip Workflow",
+ "transition": "Complete"
+}

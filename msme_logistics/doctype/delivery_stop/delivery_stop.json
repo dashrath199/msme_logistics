@@ -1,0 +1,93 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "address",
+  "sequence_no",
+  "delivery_window_start",
+  "delivery_window_end",
+  "status",
+  "column_break_1",
+  "actual_arrival_time",
+  "pod_image",
+  "pod_signature",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Link",
+   "label": "Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "sequence_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Sequence No"
+  },
+  {
+   "fieldname": "delivery_window_start",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Delivery Window Start"
+  },
+  {
+   "fieldname": "delivery_window_end",
+   "fieldtype": "Time",
+   "label": "Delivery Window End"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nDelivered\nFailed\nRescheduled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actual_arrival_time",
+   "fieldtype": "Datetime",
+   "label": "Actual Arrival Time"
+  },
+  {
+   "fieldname": "pod_image",
+   "fieldtype": "Attach",
+   "label": "POD Image"
+  },
+  {
+   "fieldname": "pod_signature",
+   "fieldtype": "Signature",
+   "label": "POD Signature"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "istable": 1,
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Delivery Stop",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
