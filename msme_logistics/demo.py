@@ -440,6 +440,18 @@ def _create_delivery_trip(
             update_modified=False,
         )
 
+    # For 'Completed' and 'Reconciled' states, the workflow expects doc_status=1 (Submitted).
+    # Since we bypass the workflow, set docstatus directly so these records appear in
+    # the list view (which for submittable docs defaults to showing submitted records).
+    if original_status in ("Completed", "Reconciled"):
+        frappe.db.set_value(
+            "Delivery Trip",
+            doc.name,
+            "docstatus",
+            1,
+            update_modified=False,
+        )
+
 
 def _create_trip_cost_reconciliation(transporter, warehouse):
     """Create Trip Cost Reconciliation records for the completed trip.

@@ -76,6 +76,35 @@ def fix():
     print("\n✅ Fix applied. Run `bench clear-cache` and hard refresh your browser.")
 
 
+def fix_docstatus():
+    """Fix docstatus for Completed/Reconciled trips that are stuck as Draft (docstatus=0).
+
+    The workflow expects doc_status=1 (Submitted) for these states, but the demo
+    creates all trips as Draft and updates trip_status via SQL without updating docstatus.
+    This causes the list view to show 0 records.
+    """
+    trips = frappe.db.sql(
+        """
+        SELECT name, trip_status, docstatus
+        FROM `tabDelivery Trip`
+        WHERE trip_status IN ('Completed', 'Reconciled')
+          AND docstatus = 0
+        """,
+        as_dict=True,
+    )
+    if not trips:
+        print("✅ No trips need docstatus fix.")
+        return
+
+    for t in trips:
+        frappe.db.set_value("Delivery Trip", t.name, "docstatus", 1, update_modified=False)
+        print(f"  • {t.name}: docstatus 0 → 1 (status={t.trip_status})")
+
+    frappe.db.commit()
+    print(f"\n✅ Fixed {len(trips)} trip(s). Run `bench clear-cache` then refresh.")
+
+
+
 def cleanup():
     """Remove Failed Deliveries and SLA Compliance from Logistics Dashboard."""
     import json
