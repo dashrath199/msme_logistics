@@ -16,50 +16,61 @@ import frappe
 
 
 def diagnose():
-    """List all workspaces — find any with null label."""
+    """List all workspaces — find any with null label or title."""
     workspaces = frappe.db.sql(
-        "SELECT name, label, module, public FROM `tabWorkspace` ORDER BY sequence_id",
+        "SELECT name, label, title, module, public FROM `tabWorkspace` ORDER BY sequence_id",
         as_dict=True,
     )
     print(f"\n{'='*70}")
     print(f"Found {len(workspaces)} workspace(s):")
     print(f"{'='*70}")
     for ws in workspaces:
-        null_flag = " ⚠️ NULL LABEL!" if not ws.label else ""
-        print(f"  • {ws.name}: label={ws.label!r}, module={ws.module}, public={ws.public}{null_flag}")
+        flags = []
+        if not ws.label:
+            flags.append("⚠️ NULL LABEL")
+        if not ws.title:
+            flags.append("⚠️ NULL TITLE")
+        flag_str = " — " + ", ".join(flags) if flags else ""
+        print(f"  • {ws.name}: label={ws.label!r}, title={ws.title!r}, module={ws.module}, public={ws.public}{flag_str}")
     print(f"{'='*70}\n")
 
-    # Find culprits
-    bad = [ws for ws in workspaces if not ws.label]
-    if bad:
-        print(f"❌ {len(bad)} workspace(s) with null label FOUND — sidebar will crash.")
-        for ws in bad:
-            print(f"   → Delete with: frappe.delete_doc('Workspace', {ws.name!r}, force=True)")
-    else:
-        print("✅ No workspaces with null label found. The issue may be a cached asset.")
+    bad_labels = [ws for ws in workspaces if not ws.label]
+    bad_titles = [ws for ws in workspaces if not ws.title]
+    if bad_labels:
+        print(f"❌ {len(bad_labels)} workspace(s) with null label FOUND.")
+        for ws in bad_labels:
+            print(f"   • {ws.name}")
+    if bad_titles:
+        print(f"❌ {len(bad_titles)} workspace(s) with null title FOUND — THIS IS THE SIDEBAR CRASH CAUSE!")
+        for ws in bad_titles:
+            print(f"   • {ws.name}")
+    if not bad_labels and not bad_titles:
+        print("✅ All workspaces have both label and title. The issue may be cached assets.")
 
 
 def fix():
-    """Delete workspaces with null labels and set label = name for any that have one missing."""
-    bad = frappe.db.sql(
-        "SELECT name, label FROM `tabWorkspace` WHERE label IS NULL OR label = ''",
+    """Set title for workspaces that have null title but have a label."""
+    bad_titles = frappe.db.sql(
+        "SELECT name, label FROM `tabWorkspace` WHERE title IS NULL OR title = ''",
         as_dict=True,
     )
-    if not bad:
-        print("✅ No workspaces with null/empty label found.")
+    if bad_titles:
+        print(f"Found {len(bad_titles)} workspace(s) with null title:")
+        for ws in bad_titles:
+            new_title = ws.label or ws.name
+            print(f"  • {ws.name}: setting title = {new_title!r}")
+            frappe.db.set_value("Workspace", ws.name, "title", new_title)
+    else:
+        print("✅ No workspaces with null/empty title found.")
 
-    for ws in bad:
-        print(f"Fix 1: Setting label = {ws.name!r} for workspace {ws.name!r}")
+    # Also fix label if any are null
+    bad_labels = frappe.db.sql(
+        "SELECT name FROM `tabWorkspace` WHERE label IS NULL OR label = ''",
+        as_dict=True,
+    )
+    for ws in bad_labels:
+        print(f"  • {ws.name}: setting label = {ws.name!r}")
         frappe.db.set_value("Workspace", ws.name, "label", ws.name)
-
-    # Also check Logistics Dashboard specifically
-    if frappe.db.exists("Workspace", "Logistics Dashboard"):
-        label = frappe.db.get_value("Workspace", "Logistics Dashboard", "label")
-        if not label:
-            print("⚠️ Logistics Dashboard has null label — setting it now.")
-            frappe.db.set_value("Workspace", "Logistics Dashboard", "label", "Logistics Dashboard")
-        else:
-            print(f"✅ Logistics Dashboard label is OK: {label!r}")
 
     frappe.db.commit()
     print("\n✅ Fix applied. Run `bench clear-cache` and hard refresh your browser.")
