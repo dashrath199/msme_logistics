@@ -150,6 +150,13 @@ def before_uninstall():
             pass
 
     for cust in DEMO_CUSTOMERS:
+        # Clean up the demo Address linked to this customer
+        addr_name = f"{cust['name']} - Demo"
+        if frappe.db.exists("Address", addr_name):
+            try:
+                frappe.delete_doc("Address", addr_name, force=True, ignore_permissions=True)
+            except Exception:
+                pass
         try:
             frappe.delete_doc("Customer", cust["name"], force=True, ignore_permissions=True)
         except Exception:
