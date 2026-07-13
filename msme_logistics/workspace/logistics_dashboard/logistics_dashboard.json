@@ -6,7 +6,7 @@
   }
  ],
  "charts_label": "Charts",
- "content": "[{\"id\":\"kqkCxMUYsU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Logistics Dashboard</span>\",\"level\":4}},{\"id\":\"UAkbRg6B80\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Trips In Transit Today\",\"col\":4}},{\"id\":\"h8oA4oKBbZ\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Failed Deliveries This Week\",\"col\":4}},{\"id\":\"gH6dKpIXyh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Avg Cost Per Stop\",\"col\":4}},{\"id\":\"rAWgZ5vJhO\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Cost Per Delivery Trend\",\"col\":6}},{\"id\":\"rDETJ7PMAw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Delivery Trip\",\"col\":3}},{\"id\":\"4QeXF9yTEO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter List\",\"col\":3}},{\"id\":\"Eue7bJLWBQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trip Cost Reconciliation\",\"col\":3}}]",
+ "content": "[{\"id\":\"kqkCxMUYsU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Logistics Dashboard</span>\",\"level\":4}},{\"id\":\"UAkbRg6B80\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Trips In Transit Today\",\"col\":4}},{\"id\":\"gH6dKpIXyh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Avg Cost Per Stop\",\"col\":4}},{\"id\":\"rAWgZ5vJhO\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Cost Per Delivery Trend\",\"col\":6}},{\"id\":\"rDETJ7PMAw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Delivery Trip\",\"col\":3}},{\"id\":\"4QeXF9yTEO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter List\",\"col\":3}},{\"id\":\"Eue7bJLWBQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trip Cost Reconciliation\",\"col\":3}}]",
  "creation": "2024-01-01 00:00:00.000000",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -26,10 +26,6 @@
   {
    "label": "Trips In Transit Today",
    "number_card_name": "Trips In Transit Today"
-  },
-  {
-   "label": "Failed Deliveries This Week",
-   "number_card_name": "Failed Deliveries This Week"
   },
   {
    "label": "Avg Cost Per Stop",
