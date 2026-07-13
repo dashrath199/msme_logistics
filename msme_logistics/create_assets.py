@@ -34,6 +34,7 @@ def _create_png(width, height, r, g, b):
 def run():
     app_path = frappe.get_app_path("msme_logistics")
     public_path = os.path.join(app_path, "public")
+    os.makedirs(public_path, exist_ok=True)  # ensure the directory exists
 
     splash_path = os.path.join(public_path, "splash.png")
     if not os.path.exists(splash_path):
