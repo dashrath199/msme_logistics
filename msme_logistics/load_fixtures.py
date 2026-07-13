@@ -49,12 +49,17 @@ def run():
             data.pop(meta_field, None)
 
         try:
+            # Flag as import so standard docs (Dashboard Charts, etc.) can be created
+            frappe.flags.in_import = True
             doc = frappe.get_doc(data)
             doc.flags.ignore_permissions = True
             doc.flags.ignore_mandatory = True
             doc.insert()
             print(f"✅ Created {doctype} '{name}'")
             imported += 1
+        except frappe.DuplicateEntryError:
+            print(f"⏭️  {doctype} '{name}' already exists — skipping")
+            skipped += 1
         except Exception as e:
             print(f"❌ Failed to create {doctype} '{name}': {e}")
             frappe.log_error(
@@ -62,6 +67,8 @@ def run():
                 message=frappe.get_traceback(),
             )
             skipped += 1
+        finally:
+            frappe.flags.in_import = False
 
     frappe.db.commit()
     print(f"\n{'='*50}")
