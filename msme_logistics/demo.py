@@ -183,8 +183,58 @@ def _get_default_company():
     )
 
 
+def _get_customer_group():
+    """Return a non-group Customer Group available on the site.
+
+    Falls back to creating one if none exists.
+    """
+    group = frappe.db.get_value(
+        "Customer Group",
+        {"is_group": 0},
+        "name",
+        order_by="creation asc",
+    )
+    if group:
+        return group
+
+    # No non-group Customer Group exists yet — create one
+    doc = frappe.get_doc({
+        "doctype": "Customer Group",
+        "customer_group_name": "Demo Customers",
+        "is_group": 0,
+    })
+    doc.insert(ignore_permissions=True)
+    return doc.name
+
+
+def _get_territory():
+    """Return a non-group Territory available on the site.
+
+    Falls back to creating one if none exists.
+    """
+    territory = frappe.db.get_value(
+        "Territory",
+        {"is_group": 0},
+        "name",
+        order_by="creation asc",
+    )
+    if territory:
+        return territory
+
+    doc = frappe.get_doc({
+        "doctype": "Territory",
+        "territory_name": "Demo Territory",
+        "is_group": 0,
+    })
+    doc.insert(ignore_permissions=True)
+    return doc.name
+
+
 def _create_customers():
     """Create demo Customers (idempotent)."""
+    customer_group = _get_customer_group()
+    territory = _get_territory()
+
     for cust in DEMO_CUSTOMERS:
         if frappe.db.exists("Customer", cust["name"]):
             continue
@@ -192,8 +242,8 @@ def _create_customers():
             "doctype": "Customer",
             "customer_name": cust["name"],
             "customer_type": "Company",
-            "customer_group": _("All Customer Groups"),
-            "territory": _("All Territories"),
+            "customer_group": customer_group,
+            "territory": territory,
         })
         doc.insert(ignore_permissions=True)
 
