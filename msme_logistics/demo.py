@@ -272,9 +272,10 @@ def _create_delivery_trip(transporter):
         "linked_delivery_notes": [],
     })
 
-    # Bypass delivery-notes + POD validation for demo records
+    # Bypass delivery-notes + POD validation + mandatory checks for demo records
+    # ignore_mandatory=True is needed because linked_delivery_notes is reqd
     doc.flags.ignore_validate = True
-    doc.insert(ignore_permissions=True)
+    doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
 
 # ---------------------------------------------------------------------------
