@@ -59,8 +59,10 @@ def run():
             data.pop(meta_field, None)
 
         try:
-            # Flag as import so standard docs (Dashboard Charts, etc.) can be created
-            frappe.flags.in_import = True
+            # Temporarily enable developer_mode to allow creating standard records
+            # (Dashboard Chart validate() checks developer_mode, not in_import)
+            _original_dev_mode = frappe.conf.developer_mode
+            frappe.conf.developer_mode = 1
             doc = frappe.get_doc(data)
             doc.flags.ignore_permissions = True
             doc.flags.ignore_mandatory = True
@@ -78,7 +80,7 @@ def run():
             )
             skipped += 1
         finally:
-            frappe.flags.in_import = False
+            frappe.conf.developer_mode = _original_dev_mode
 
     frappe.db.commit()
     print(f"\n{'='*50}")
