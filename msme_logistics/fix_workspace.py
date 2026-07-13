@@ -74,3 +74,37 @@ def fix():
 
     frappe.db.commit()
     print("\n✅ Fix applied. Run `bench clear-cache` and hard refresh your browser.")
+
+
+def cleanup():
+    """Remove Failed Deliveries and SLA Compliance from Logistics Dashboard."""
+    import json
+
+    ws = frappe.get_doc("Workspace", "Logistics Dashboard")
+
+    # Remove from number cards
+    ws.number_cards = [
+        nc for nc in ws.number_cards
+        if nc.number_card_name != "Failed Deliveries This Week"
+    ]
+
+    # Remove from charts
+    ws.charts = [
+        c for c in ws.charts
+        if c.chart_name != "SLA Compliance by Transporter"
+    ]
+
+    # Remove from content
+    content = json.loads(ws.content)
+    content = [
+        item for item in content
+        if item.get("data", {}).get("number_card_name") != "Failed Deliveries This Week"
+        and item.get("data", {}).get("chart_name") != "SLA Compliance by Transporter"
+    ]
+    ws.content = json.dumps(content)
+
+    ws.flags.ignore_links = True
+    ws.save()
+    frappe.db.commit()
+    print("✅ Removed 'Failed Deliveries This Week' and 'SLA Compliance by Transporter' from Logistics Dashboard.")
+    print("   Run `bench clear-cache` then refresh your browser.")
