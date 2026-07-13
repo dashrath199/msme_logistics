@@ -86,6 +86,22 @@ DEMO_TRIP_STOPS = [
     },
 ]
 
+# Subset of stops for shorter trips
+DEMO_TRIP_STOPS_SHORT = [
+    {
+        "customer": "New Delhi Electronics",
+        "sequence_no": 1,
+        "delivery_window_start": "09:00",
+        "delivery_window_end": "11:00",
+    },
+    {
+        "customer": "Bangalore Retail Mart",
+        "sequence_no": 2,
+        "delivery_window_start": "14:00",
+        "delivery_window_end": "16:00",
+    },
+]
+
 
 # ---------------------------------------------------------------------------
 # after_install — called by bench install-app
@@ -109,7 +125,29 @@ def after_install():
         _create_warehouse(company)
 
         transporter = _create_transporter()
-        _create_delivery_trip(transporter)
+        warehouse = _get_warehouse_name()
+
+        # Trip 1: Planned (existing demo)
+        _create_delivery_trip(transporter, warehouse, "Planned")
+
+        # Trip 2: In Transit — powers 'Trips In Transit Today' number card
+        _create_delivery_trip(
+            transporter, warehouse, "In Transit",
+            driver="Suresh Patel", driver_contact="+91-8877665544", vehicle="DL-04-WW-5678",
+            stops_status=["Delivered", "Pending"],
+            actual_dispatch=frappe.utils.now_datetime(),
+        )
+
+        # Trip 3: Completed — powers 'Failed Deliveries This Week' via a 'Failed' stop
+        _create_delivery_trip(
+            transporter, warehouse, "Completed",
+            driver="Amit Verma", driver_contact="+91-7766554433", vehicle="DL-05-ZZ-9012",
+            stops_status=["Delivered", "Failed"],
+            actual_dispatch=frappe.utils.add_to_date(frappe.utils.now_datetime(), hours=-6),
+        )
+
+        # Trip Cost Reconciliations — powers 'Avg Cost Per Stop' number card
+        _create_trip_cost_reconciliation(transporter, warehouse)
 
         frappe.db.commit()  # single commit at the end
         _print_success()
@@ -306,12 +344,8 @@ def _create_transporter():
     return doc
 
 
-def _create_delivery_trip(transporter):
-    """Create a demo Delivery Trip with stops.
-
-    Bypasses validation (linked_delivery_notes, POD checks) since this is
-    demo data intended for exploration, not a production workflow.
-    """
+def _get_warehouse_name():
+    """Get the actual warehouse name (with company abbreviation)."""
     warehouse = frappe.db.get_value(
         "Warehouse",
         {"warehouse_name": DEMO_WAREHOUSE["warehouse_name"]},
@@ -319,48 +353,119 @@ def _create_delivery_trip(transporter):
     )
     if not warehouse:
         frappe.throw(_("Demo Warehouse not found — cannot create Delivery Trip."))
+    return warehouse
 
+
+def _build_delivery_stops(stop_configs, stops_status=None):
+    """Build a list of delivery stop dicts from a stop config and optional status overrides."""
+    stops_status = stops_status or ["Pending"] * len(stop_configs)
     delivery_stops = []
-    for sd in DEMO_TRIP_STOPS:
+    for i, sd in enumerate(stop_configs):
         customer = frappe.db.get_value("Customer", sd["customer"], "name")
         if not customer:
             continue
-        # Resolve the demo Address we created earlier
         address = frappe.db.get_value(
             "Dynamic Link",
             {"link_doctype": "Customer", "link_name": customer, "parenttype": "Address"},
             "parent",
         )
-        delivery_stops.append({
+        status = stops_status[i] if i < len(stops_status) else "Pending"
+        stop = {
             "customer": customer,
             "address": address,
             "sequence_no": sd["sequence_no"],
             "delivery_window_start": sd["delivery_window_start"],
             "delivery_window_end": sd["delivery_window_end"],
-            "status": "Pending",
-        })
+            "status": status,
+        }
+        # Add actual arrival time for stops that are Delivered or Failed
+        if status in ("Delivered", "Failed"):
+            stop["actual_arrival_time"] = frappe.utils.now_datetime()
+        delivery_stops.append(stop)
+    return delivery_stops
+
+
+def _create_delivery_trip(
+    transporter, warehouse, status,
+    driver=None, driver_contact=None, vehicle=None,
+    stops_status=None, actual_dispatch=None,
+):
+    """Create a demo Delivery Trip with the given status and stops.
+
+    Bypasses validation (linked_delivery_notes, POD checks) since this is
+    demo data intended for exploration, not a production workflow.
+    """
+    if not warehouse:
+        frappe.throw(_("Demo Warehouse not found — cannot create Delivery Trip."))
+
+    # Use short stops for non-Planned trips, full stops for Planned
+    stop_configs = DEMO_TRIP_STOPS_SHORT if status != "Planned" else DEMO_TRIP_STOPS
+    delivery_stops = _build_delivery_stops(stop_configs, stops_status)
 
     if not delivery_stops:
         frappe.throw(_("No delivery stops could be created."))
 
-    doc = frappe.get_doc({
+    doc_data = {
         "doctype": "Delivery Trip",
         "transporter": transporter.name,
-        "driver_name": DEMO_DRIVER["driver_name"],
-        "driver_contact": DEMO_DRIVER["driver_contact"],
-        "vehicle_no": DEMO_DRIVER["vehicle_no"],
+        "driver_name": driver or DEMO_DRIVER["driver_name"],
+        "driver_contact": driver_contact or DEMO_DRIVER["driver_contact"],
+        "vehicle_no": vehicle or DEMO_DRIVER["vehicle_no"],
         "origin_warehouse": warehouse,
         "planned_dispatch_date": frappe.utils.today(),
-        "trip_status": "Planned",
+        "trip_status": status,
         "delivery_stops": delivery_stops,
-        # Demo trips don't link real Delivery Notes — skip validation below
         "linked_delivery_notes": [],
-    })
+    }
 
-    # Bypass delivery-notes + POD validation + mandatory checks for demo records
-    # ignore_mandatory=True is needed because linked_delivery_notes is reqd
+    if actual_dispatch:
+        doc_data["actual_dispatch_datetime"] = actual_dispatch
+
+    doc = frappe.get_doc(doc_data)
     doc.flags.ignore_validate = True
     doc.insert(ignore_permissions=True, ignore_mandatory=True)
+
+
+def _create_trip_cost_reconciliation(transporter, warehouse):
+    """Create Trip Cost Reconciliation records for the completed trip.
+
+    These power the 'Avg Cost Per Stop' number card and 'Cost Per Delivery Trend' chart.
+    """
+    completed_trip_names = frappe.get_all(
+        "Delivery Trip",
+        filters={"transporter": transporter.name, "trip_status": "Completed"},
+        pluck="name",
+        limit=1,
+    )
+    if not completed_trip_names:
+        return
+
+    trip_name = completed_trip_names[0]
+    total_stops = 2
+
+    # Create reconciliation records with varying dates for the timeseries chart
+    reconciliations = [
+        {
+            "delivery_trip": trip_name,
+            "fuel_cost": 4500,
+            "toll_charges": 800,
+            "other_charges": 200,
+            "transporter_payout": 12000,
+            "total_stops": total_stops,
+            "cost_per_stop": 6250,
+            "reconciled_by": frappe.session.user,
+            "reconciliation_date": frappe.utils.add_to_date(frappe.utils.today(), days=-2),
+            "remarks": "Weekend run — all deliveries completed on time.",
+        },
+    ]
+
+    for rec in reconciliations:
+        doc = frappe.get_doc({
+            "doctype": "Trip Cost Reconciliation",
+            **rec,
+        })
+        doc.flags.ignore_validate = True
+        doc.insert(ignore_permissions=True)
 
 
 # ---------------------------------------------------------------------------
@@ -376,6 +481,9 @@ def _print_success():
         "  • 1 Warehouse\n"
         "  • Transporter: {transporter} (3 vehicle types, 3 service areas)\n"
         "  • 1 Delivery Trip (Planned) with 3 Delivery Stops\n"
+        "  • 1 Delivery Trip (In Transit) with 2 stops (1 Delivered)\n"
+        "  • 1 Delivery Trip (Completed) with 2 stops (1 Delivered, 1 Failed)\n"
+        "  • 1 Trip Cost Reconciliation record\n"
         "\nOpen the Logistics Dashboard from the Workspace menu to explore."
     ).format(transporter=DEMO_TRANSPORTER["transporter_name"])
 
