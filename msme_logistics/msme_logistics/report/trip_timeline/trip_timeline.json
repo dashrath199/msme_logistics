@@ -1,0 +1,21 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "doctype": "Report",
+ "is_standard": "Yes",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Trip Timeline",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Delivery Trip",
+ "report_name": "Trip Timeline",
+ "report_type": "Report Builder",
+ "roles": [
+  {
+   "role": "Dispatch Manager"
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "chart_field": "failure_rate",
+ "chart_label": "Area",
+ "chart_options": "{\"type\": \"percentage\", \"axis_options\": {\"xAxis\": {\"title\": {\"text\": \"Area / Pincode\"}}, \"yAxis\": {\"title\": {\"text\": \"Failure Rate %\"}}}}",
+ "chart_type": "Bar",
+ "creation": "2024-01-01 00:00:00.000000",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "doctype": "Report",
+ "is_standard": "Yes",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Failed/Rescheduled Rate by Area",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\n    COALESCE(addr.pincode, 'Unknown') AS \"Pincode:Data:120\",\n    COALESCE(addr.city, 'Unknown') AS \"City:Data:150\",\n    COUNT(ds.name) AS \"Total Stops:Int:120\",\n    SUM(CASE WHEN ds.status IN ('Failed', 'Rescheduled') THEN 1 ELSE 0 END) AS \"Failed/Rescheduled:Int:180\",\n    ROUND(\n        SUM(CASE WHEN ds.status IN ('Failed', 'Rescheduled') THEN 1 ELSE 0 END) * 100.0 / COUNT(ds.name),\n        2\n    ) AS failure_rate\nFROM\n    `tabDelivery Stop` ds\nLEFT JOIN\n    `tabAddress` addr ON addr.name = ds.address\nWHERE\n    ds.docstatus < 2\nGROUP BY\n    addr.pincode, addr.city\nORDER BY\n    failure_rate DESC\nLIMIT 50",
+ "ref_doctype": "Delivery Stop",
+ "report_name": "Failed/Rescheduled Rate by Area",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Dispatch Manager"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-01-01 00:00:00.000000",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Delivery Trip",
+ "enabled": 1,
+ "event": "Before Workflow Transition",
+ "is_standard": 1,
+ "message": "<h3>POD Missing at Trip Close</h3>\n<p>Trip <strong>{{ doc.name }}</strong> has delivered stops without proof of delivery.</p>\n<p>Delivered stops missing POD:</p>\n<ul>\n{% for stop in doc.delivery_stops %}\n  {% if stop.status == 'Delivered' and not stop.pod_image and not stop.pod_signature %}\n    <li>Stop #{{ stop.sequence_no }} — {{ stop.customer }}</li>\n  {% endif %}\n{% endfor %}\n</ul>\n<p><strong>Action required:</strong> Upload POD images/signatures before completing the trip.</p>",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "POD Missing at Trip Close",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "condition": "",
+   "receiver_by_document_field": "",
+   "receiver_by_role": "Dispatch Manager"
+  }
+ ],
+ "sender": "",
+ "sender_email": "",
+ "subject": "POD Missing: Trip {{ doc.name }}",
+ "value_changed": "",
+ "workflow": "Delivery Trip Workflow",
+ "transition": "Complete",
+ "condition": "{% set missing = namespace(found=false) %}{% for stop in doc.delivery_stops %}{% if stop.status == 'Delivered' and not stop.pod_image and not stop.pod_signature %}{% set missing.found = true %}{% endif %}{% endfor %}{{ missing.found }}"
+}

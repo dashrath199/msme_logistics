@@ -1,0 +1,167 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "transporter",
+  "driver_name",
+  "driver_contact",
+  "vehicle_no",
+  "origin_warehouse",
+  "column_break_1",
+  "planned_dispatch_date",
+  "actual_dispatch_datetime",
+  "trip_status",
+  "total_stops",
+  "total_distance",
+  "section_break_stops",
+  "delivery_stops",
+  "section_break_dn",
+  "linked_delivery_notes",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "transporter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Transporter",
+   "options": "Transporter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Driver Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "driver_contact",
+   "fieldtype": "Data",
+   "label": "Driver Contact"
+  },
+  {
+   "fieldname": "vehicle_no",
+   "fieldtype": "Data",
+   "label": "Vehicle No"
+  },
+  {
+   "fieldname": "origin_warehouse",
+   "fieldtype": "Link",
+   "label": "Origin Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "planned_dispatch_date",
+   "fieldtype": "Date",
+   "label": "Planned Dispatch Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "actual_dispatch_datetime",
+   "fieldtype": "Datetime",
+   "label": "Actual Dispatch Datetime"
+  },
+  {
+   "fieldname": "trip_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Trip Status",
+   "options": "Planned\nDispatched\nIn Transit\nCompleted\nReconciled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_stops",
+   "fieldtype": "Int",
+   "label": "Total Stops",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_distance",
+   "fieldtype": "Float",
+   "label": "Total Distance (km)"
+  },
+  {
+   "fieldname": "section_break_stops",
+   "fieldtype": "Section Break",
+   "label": "Delivery Stops"
+  },
+  {
+   "fieldname": "delivery_stops",
+   "fieldtype": "Table",
+   "label": "Delivery Stops",
+   "options": "Delivery Stop",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_dn",
+   "fieldtype": "Section Break",
+   "label": "Linked Delivery Notes"
+  },
+  {
+   "fieldname": "linked_delivery_notes",
+   "fieldtype": "Table",
+   "label": "Linked Delivery Notes",
+   "options": "Linked Delivery Note",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Delivery Trip",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Delivery Trip",
+ "naming_series": "TRIP-.YYYY.-",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 0,
+   "cancel": 0,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dispatch Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 0,
+   "cancel": 0,
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "print": 0,
+   "read": 0,
+   "report": 0,
+   "role": "Driver",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "name",
+ "track_changes": 1
+}

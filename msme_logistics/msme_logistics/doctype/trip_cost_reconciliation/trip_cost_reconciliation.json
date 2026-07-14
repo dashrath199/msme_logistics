@@ -1,0 +1,137 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "delivery_trip",
+  "fuel_cost",
+  "toll_charges",
+  "other_charges",
+  "transporter_payout",
+  "column_break_1",
+  "total_stops",
+  "cost_per_stop",
+  "reconciled_by",
+  "reconciliation_date",
+  "remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "delivery_trip",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Delivery Trip",
+   "options": "Delivery Trip",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_cost",
+   "fieldtype": "Currency",
+   "label": "Fuel Cost",
+   "options": "INR"
+  },
+  {
+   "fieldname": "toll_charges",
+   "fieldtype": "Currency",
+   "label": "Toll Charges",
+   "options": "INR"
+  },
+  {
+   "fieldname": "other_charges",
+   "fieldtype": "Currency",
+   "label": "Other Charges",
+   "options": "INR"
+  },
+  {
+   "fieldname": "transporter_payout",
+   "fieldtype": "Currency",
+   "label": "Transporter Payout",
+   "options": "INR",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_stops",
+   "fieldtype": "Int",
+   "label": "Total Stops",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost_per_stop",
+   "fieldtype": "Currency",
+   "label": "Cost Per Stop",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reconciled_by",
+   "fieldtype": "Link",
+   "label": "Reconciled By",
+   "options": "User"
+  },
+  {
+   "fieldname": "reconciliation_date",
+   "fieldtype": "Date",
+   "label": "Reconciliation Date"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Trip Cost Reconciliation",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Trip Cost Reconciliation",
+ "naming_series": "TCR-.YYYY.-",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 0,
+   "cancel": 0,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dispatch Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 0,
+   "cancel": 0,
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "print": 0,
+   "read": 0,
+   "report": 0,
+   "role": "Driver",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "delivery_trip",
+ "track_changes": 1
+}

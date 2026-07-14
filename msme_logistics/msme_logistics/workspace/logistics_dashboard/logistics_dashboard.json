@@ -1,0 +1,104 @@
+{
+ "charts": [
+  {
+   "chart_name": "SLA Compliance by Transporter",
+   "label": "SLA Compliance by Transporter"
+  },
+  {
+   "chart_name": "Cost Per Delivery Trend",
+   "label": "Cost Per Delivery Trend"
+  }
+ ],
+ "charts_label": "Charts",
+ "content": "[{\"id\":\"kqkCxMUYsU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Logistics Dashboard</span>\",\"level\":4}},{\"id\":\"UAkbRg6B80\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Trips In Transit Today\",\"col\":4}},{\"id\":\"h8oA4oKBbZ\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Failed Deliveries This Week\",\"col\":4}},{\"id\":\"gH6dKpIXyh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Avg Cost Per Stop\",\"col\":4}},{\"id\":\"j0YEQ9rBFP\",\"type\":\"chart\",\"data\":{\"chart_name\":\"SLA Compliance by Transporter\",\"col\":6}},{\"id\":\"rAWgZ5vJhO\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Cost Per Delivery Trend\",\"col\":6}},{\"id\":\"rDETJ7PMAw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Delivery Trip\",\"col\":3}},{\"id\":\"4QeXF9yTEO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter List\",\"col\":3}},{\"id\":\"DGuQ6LB7Wz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today's Stops\",\"col\":3}},{\"id\":\"Eue7bJLWBQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trip Cost Reconciliation\",\"col\":3}}]",
+ "creation": "2024-01-01 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "package",
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "Logistics Dashboard",
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Logistics Dashboard",
+ "number_cards": [
+  {
+   "label": "Trips In Transit Today",
+   "number_card_name": "Trips In Transit Today"
+  },
+  {
+   "label": "Failed Deliveries This Week",
+   "number_card_name": "Failed Deliveries This Week"
+  },
+  {
+   "label": "Avg Cost Per Stop",
+   "number_card_name": "Avg Cost Per Stop"
+  }
+ ],
+ "number_cards_label": "Key Metrics",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 0,
+ "shortcuts": [
+  {
+   "label": "New Delivery Trip",
+   "shortcut_name": "New Delivery Trip",
+   "type": "DocType",
+   "doc_type": "Delivery Trip",
+   "action": "New",
+   "icon": "add",
+   "format": "{}",
+   "color": "Blue",
+   "link_to": "Delivery Trip",
+   "stats_filter": "[]",
+   "kanban_board": ""
+  },
+  {
+   "label": "Transporter List",
+   "shortcut_name": "Transporter List",
+   "type": "DocType",
+   "doc_type": "Transporter",
+   "action": "List",
+   "icon": "truck",
+   "format": "{}",
+   "color": "Green",
+   "link_to": "Transporter",
+   "stats_filter": "[]",
+   "kanban_board": ""
+  },
+  {
+   "label": "Today's Stops",
+   "shortcut_name": "Today's Stops",
+   "type": "Report",
+   "doc_type": "Delivery Stop",
+   "action": "Report",
+   "icon": "list",
+   "format": "{}",
+   "color": "Orange",
+   "link_to": "Delivery Stop",
+   "stats_filter": "[]",
+   "kanban_board": ""
+  },
+  {
+   "label": "Trip Cost Reconciliation",
+   "shortcut_name": "Trip Cost Reconciliation",
+   "type": "DocType",
+   "doc_type": "Trip Cost Reconciliation",
+   "action": "New",
+   "icon": "cash",
+   "format": "{}",
+   "color": "Purple",
+   "link_to": "Trip Cost Reconciliation",
+   "stats_filter": "[]",
+   "kanban_board": ""
+  }
+ ],
+ "shortcuts_label": "Quick Actions"
+}

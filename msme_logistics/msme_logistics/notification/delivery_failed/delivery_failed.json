@@ -1,0 +1,30 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-01-01 00:00:00.000000",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Delivery Stop",
+ "enabled": 1,
+ "event": "Save",
+ "is_standard": 1,
+ "message": "<h3>Delivery Failed</h3>\n<p>Delivery to <strong>{{ doc.customer }}</strong> has failed.</p>\n<p><strong>Trip:</strong> {{ doc.parent }}</p>\n<p><strong>Sequence No:</strong> {{ doc.sequence_no }}</p>\n<p><strong>Notes:</strong> {{ doc.notes or 'No notes provided' }}</p>\n<p><strong>Time:</strong> {{ frappe.utils.now_datetime() }}</p>",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Delivery Failed",
+ "owner": "Administrator",
+ "property_value": "Failed",
+ "recipients": [
+  {
+   "condition": "",
+   "receiver_by_document_field": "",
+   "receiver_by_role": "Dispatch Manager"
+  }
+ ],
+ "sender": "",
+ "sender_email": "",
+ "subject": "Delivery Failed: Stop #{{ doc.sequence_no }} — {{ doc.customer }}",
+ "value_changed": "status"
+}

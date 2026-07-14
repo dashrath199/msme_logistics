@@ -1,0 +1,112 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "supplier",
+  "transporter_name",
+  "contact_number",
+  "email",
+  "is_active",
+  "section_break_vehicles",
+  "vehicle_types",
+  "section_break_areas",
+  "service_areas"
+ ],
+ "fields": [
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "transporter_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Transporter Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Active"
+  },
+  {
+   "fieldname": "section_break_vehicles",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Types & Rate Cards"
+  },
+  {
+   "fieldname": "vehicle_types",
+   "fieldtype": "Table",
+   "label": "Vehicle Types",
+   "options": "Vehicle Types",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_areas",
+   "fieldtype": "Section Break",
+   "label": "Service Areas"
+  },
+  {
+   "fieldname": "service_areas",
+   "fieldtype": "Table",
+   "label": "Service Areas",
+   "options": "Service Areas"
+  }
+ ],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MSME Logistics",
+ "name": "Transporter",
+ "naming_series": "TRN-.YYYY.-",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 0,
+   "cancel": 0,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dispatch Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 0,
+   "cancel": 0,
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "print": 0,
+   "read": 0,
+   "report": 0,
+   "role": "Driver",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "transporter_name",
+ "track_changes": 1
+}
