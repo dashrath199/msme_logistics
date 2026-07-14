@@ -1,0 +1,38 @@
+{
+ "doctype": "Workspace",
+ "is_hidden": 0,
+ "label": "Billing & Reconciliation",
+ "module": "MSME Logistics",
+ "name": "Billing & Reconciliation",
+ "parent_page": "Logistics Dashboard",
+ "owner": "Administrator",
+ "public": 1,
+ "sequence_id": 4.0,
+ "title": "Billing & Reconciliation",
+ "content": "[{\"id\": \"hdr_4\", \"type\": \"header\", \"data\": {\"text\": \"Billing & Reconciliation\", \"col\": 12}}, {\"id\": \"card_billing\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing & Reconciliation\", \"links\": [{\"type\": \"link\", \"label\": \"Trip Cost Reconciliation\", \"link_to\": \"Trip Cost Reconciliation\", \"link_type\": \"DocType\"}]}}]",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing & Reconciliation",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Cost Reconciliation",
+   "link_count": 0,
+   "link_to": "Trip Cost Reconciliation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "shortcuts": []
+}

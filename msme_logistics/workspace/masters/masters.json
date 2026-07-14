@@ -1,0 +1,38 @@
+{
+ "doctype": "Workspace",
+ "is_hidden": 0,
+ "label": "Masters",
+ "module": "MSME Logistics",
+ "name": "Masters",
+ "parent_page": "Logistics Dashboard",
+ "owner": "Administrator",
+ "public": 1,
+ "sequence_id": 3.0,
+ "title": "Masters",
+ "content": "[{\"id\": \"hdr_3\", \"type\": \"header\", \"data\": {\"text\": \"Masters\", \"col\": 12}}, {\"id\": \"card_masters\", \"type\": \"card\", \"data\": {\"card_name\": \"Masters\", \"links\": [{\"type\": \"link\", \"label\": \"Transporter\", \"link_to\": \"Transporter\", \"link_type\": \"DocType\"}]}}]",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transporter",
+   "link_count": 0,
+   "link_to": "Transporter",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "shortcuts": []
+}

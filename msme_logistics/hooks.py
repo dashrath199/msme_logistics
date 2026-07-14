@@ -32,8 +32,8 @@ fixtures = [
     {"dt": "Workflow Action Master", "filters": [["name", "in", ["Dispatch", "Start Transit", "Complete", "Reconcile", "Cancel Trip"]]]},
     {"dt": "Role", "filters": [["name", "in", ["Dispatch Manager", "Driver"]]]},
     {"dt": "Notification", "filters": [["module", "=", "MSME Logistics"]]},
-    {"dt": "Number Card", "filters": [["name", "in", ["Trips In Transit Today", "Failed Deliveries This Week", "Avg Cost Per Stop"]]]},
-    {"dt": "Dashboard Chart", "filters": [["name", "in", ["SLA Compliance by Transporter", "Cost Per Delivery Trend"]]]},
+    {"dt": "Number Card", "filters": [["name", "in", ["Trips In Transit Today", "Avg Cost Per Stop"]]]},
+    {"dt": "Dashboard Chart", "filters": [["name", "in", ["Cost Per Delivery Trend"]]]},
 ]
 
 # -----------------------------------------------

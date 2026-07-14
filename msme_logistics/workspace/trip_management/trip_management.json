@@ -1,0 +1,38 @@
+{
+ "doctype": "Workspace",
+ "is_hidden": 0,
+ "label": "Trip Management",
+ "module": "MSME Logistics",
+ "name": "Trip Management",
+ "parent_page": "Logistics Dashboard",
+ "owner": "Administrator",
+ "public": 1,
+ "sequence_id": 2.0,
+ "title": "Trip Management",
+ "content": "[{\"id\": \"hdr_2\", \"type\": \"header\", \"data\": {\"text\": \"Trip Management\", \"col\": 12}}, {\"id\": \"card_trip\", \"type\": \"card\", \"data\": {\"card_name\": \"Trip Management\", \"links\": [{\"type\": \"link\", \"label\": \"Delivery Trip\", \"link_to\": \"Delivery Trip\", \"link_type\": \"DocType\"}]}}]",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip Management",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Delivery Trip",
+   "link_count": 0,
+   "link_to": "Delivery Trip",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "shortcuts": []
+}
