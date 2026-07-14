@@ -77,12 +77,7 @@ def fix():
 
 
 def fix_docstatus():
-    """Fix docstatus for Completed/Reconciled trips that are stuck as Draft (docstatus=0).
-
-    The workflow expects doc_status=1 (Submitted) for these states, but the demo
-    creates all trips as Draft and updates trip_status via SQL without updating docstatus.
-    This causes the list view to show 0 records.
-    """
+    """Fix docstatus for Completed/Reconciled trips that are stuck as Draft (docstatus=0)."""
     trips = frappe.db.sql(
         """
         SELECT name, trip_status, docstatus
@@ -102,38 +97,3 @@ def fix_docstatus():
 
     frappe.db.commit()
     print(f"\n✅ Fixed {len(trips)} trip(s). Run `bench clear-cache` then refresh.")
-
-
-
-def cleanup():
-    """Remove Failed Deliveries and SLA Compliance from Logistics Dashboard."""
-    import json
-
-    ws = frappe.get_doc("Workspace", "Logistics Dashboard")
-
-    # Remove from number cards
-    ws.number_cards = [
-        nc for nc in ws.number_cards
-        if nc.number_card_name != "Failed Deliveries This Week"
-    ]
-
-    # Remove from charts
-    ws.charts = [
-        c for c in ws.charts
-        if c.chart_name != "SLA Compliance by Transporter"
-    ]
-
-    # Remove from content
-    content = json.loads(ws.content)
-    content = [
-        item for item in content
-        if item.get("data", {}).get("number_card_name") != "Failed Deliveries This Week"
-        and item.get("data", {}).get("chart_name") != "SLA Compliance by Transporter"
-    ]
-    ws.content = json.dumps(content)
-
-    ws.flags.ignore_links = True
-    ws.save()
-    frappe.db.commit()
-    print("✅ Removed 'Failed Deliveries This Week' and 'SLA Compliance by Transporter' from Logistics Dashboard.")
-    print("   Run `bench clear-cache` then refresh your browser.")
