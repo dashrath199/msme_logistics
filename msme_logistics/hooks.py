@@ -12,13 +12,13 @@ app_license = "MIT"
 # -----------------------------------------------
 doctype_js = {}
 doctype_python = {
-    "vehicle_types": "msme_logistics.doctype.vehicle_types.vehicle_types",
-    "service_areas": "msme_logistics.doctype.service_areas.service_areas",
-    "linked_delivery_note": "msme_logistics.doctype.linked_delivery_note.linked_delivery_note",
-    "delivery_stop": "msme_logistics.doctype.delivery_stop.delivery_stop",
-    "transporter": "msme_logistics.doctype.transporter.transporter",
-    "delivery_trip": "msme_logistics.doctype.delivery_trip.delivery_trip",
-    "trip_cost_reconciliation": "msme_logistics.doctype.trip_cost_reconciliation.trip_cost_reconciliation",
+    "vehicle_types": "msme_logistics.msme_logistics.doctype.vehicle_types.vehicle_types",
+    "service_areas": "msme_logistics.msme_logistics.doctype.service_areas.service_areas",
+    "linked_delivery_note": "msme_logistics.msme_logistics.doctype.linked_delivery_note.linked_delivery_note",
+    "delivery_stop": "msme_logistics.msme_logistics.doctype.delivery_stop.delivery_stop",
+    "transporter": "msme_logistics.msme_logistics.doctype.transporter.transporter",
+    "delivery_trip": "msme_logistics.msme_logistics.doctype.delivery_trip.delivery_trip",
+    "trip_cost_reconciliation": "msme_logistics.msme_logistics.doctype.trip_cost_reconciliation.trip_cost_reconciliation",
 }
 
 # -----------------------------------------------
